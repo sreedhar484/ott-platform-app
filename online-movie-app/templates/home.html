@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Nandu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .sticky.is-sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 50px;
+    }
+    
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    
+    .sidenav a:hover {
+      color:blanchedalmond;
+    }
+    .sidenav .closebtn {
+      position: absolute;
+      top: 50px;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+    
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+  .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+      min-height:200px;
+  }
+  .header{
+    height: auto;
+    background-color: black;
+}
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height:40px;
+    background-color: gray;
+    text-align: center;
+ }
+  /* Hide the carousel text when the screen is less than 600 pixels wide */
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; 
+    }
+  }
+
+  </style>
+</head>
+<body>
+
+  <div id="mySidenav" class="sidenav" style="font-family: sans-serif;">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="text-decoration: none;color:blue">&times;</a>
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);max-width: 300px;margin: auto;text-align: center;font-family: arial;">
+      <img src="{{user.profile.photo.url}}" alt="John" style="width:100%">
+      <p class="title" style="color:blanchedalmond;font-size: 18px;">{{user.first_name}} {{user.last_name}}</p>
+      <p class="title" style="color:blanchedalmond;font-size: 18px;">{{user.email}}</p>
+      <p class="title" style="color:blanchedalmond;font-size: 18px;">{{user.username}}</p>
+      <div style="margin: 24px 0;">
+        <p class="title" style="color:blanchedalmond;">{{user.profile.m_type}}</p>
+      </div>
+      <div>
+        <a href="{{a.app.url}}"><span class="fa fa-download"></span>Download app</a>
+      </div>
+    </div>
+  </div>
+
+
+<nav class="navbar navbar-inverse" data-toggle="sticky-onscroll">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" onclick="openNav()">Nandu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="profile"><span class="glyphicon glyphicon-user"></span> {{user.username}}</a></li>
+        <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+
+{% endblock %}
+
+
+<div class="footer">
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li style="width: 33%;"><a href="home"  style="color: black;" ><span class="glyphicon glyphicon-home"></span></a></li>
+      <li style="width: 33%;"><a href="search"  style="color: black;" ><span class="glyphicon glyphicon-search"></a></li>
+      <li style="width: 34%;"><a href="profile"  style="color: black;" ><span class="glyphicon glyphicon-user"></span></a></li>
+    </ul>
+  </div>
+</div>
+<script>
+        $(document).ready(function() {
+            // Custom 
+            var stickyToggle = function(sticky, stickyWrapper, scrollElement) {
+              var stickyHeight = sticky.outerHeight();
+              var stickyTop = stickyWrapper.offset().top;
+              if (scrollElement.scrollTop() >= stickyTop){
+                stickyWrapper.height(stickyHeight);
+                sticky.addClass("is-sticky");
+              }
+              else{
+                sticky.removeClass("is-sticky");
+                stickyWrapper.height('auto');
+              }
+            };
+            
+            // Find all data-toggle="sticky-onscroll" elements
+            $('[data-toggle="sticky-onscroll"]').each(function() {
+              var sticky = $(this);
+              var stickyWrapper = $('<div>').addClass('sticky-wrapper'); // insert hidden element to maintain actual top offset on page
+              sticky.before(stickyWrapper);
+              sticky.addClass('sticky');
+              
+              // Scroll & resize events
+              $(window).on('scroll.sticky-onscroll resize.sticky-onscroll', function() {
+                stickyToggle(sticky, stickyWrapper, $(this));
+              });
+              
+              // On page load
+              stickyToggle(sticky, stickyWrapper, $(window));
+            });
+          });
+          function openNav() {
+            document.getElementById("mySidenav").style.width = "40%";
+          }
+          
+          function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+          }
+      </script>
+</body>
+</html>

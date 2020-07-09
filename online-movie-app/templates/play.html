@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 17px;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%; 
+  height: 100%;
+}
+</style>
+</head>
+<body>
+
+<video autoplay loop controls id="myVideo">
+  <source src="{{name.movie.url}}" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+</body>
+</html>
